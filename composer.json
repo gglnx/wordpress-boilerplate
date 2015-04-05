@@ -1,0 +1,55 @@
+{
+  "name": "gglnx/kesselblech",
+  "description": "Simple boilerplate for WordPress development with grunt and browsersync.io",
+  "keywords": ["wordpress", "boilerplate", "grunt", "browsersync"],
+  "homepage": "https://github.com/gglnx/kesselblech",
+  "version": "0.1.0",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dennis Morhardt",
+      "email": "info@dennismorhardt.de",
+      "homepage": "https://www.dennismorhardt.de/"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/gglnx/kesselblech/issues"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "http://wpackagist.org"
+    },
+    {
+      "type": "composer",
+      "url": "http://languages.koodimonni.fi"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "johnpbloch/wordpress": "*",
+    "koodimonni-language/de_de": "*",
+    "composer/installers": "~1.0.0",
+    "vlucas/phpdotenv": "*"
+  },
+  "require-dev": {
+    "wpackagist-plugin/codestyling-localization": "*",
+    "wpackagist-plugin/regenerate-thumbnails": "*",
+    "wpackagist-plugin/monkeyman-rewrite-analyzer": "*",
+    "wpackagist-plugin/debug-bar": "*"
+  },
+  "extra": {
+    "installer-paths": {
+      "public/content/plugins/{$name}/": ["type:wordpress-plugin"],
+      "public/content/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
+      "public/content/themes/{$name}/": ["type:wordpress-theme"]
+    },
+    "dropin-paths": {
+      "public/content/languages/": ["vendor:koodimonni-language"],
+      "public/content/languages/plugins/": ["vendor:koodimonni-plugin-language"],
+      "public/content/languages/themes/": ["vendor:koodimonni-theme-language"]
+    },
+    "wordpress-install-dir": "public/wordpress"
+  }
+}

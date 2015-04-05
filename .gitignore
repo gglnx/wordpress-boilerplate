@@ -1,0 +1,46 @@
+# Bower
+theme/components
+
+# Composer
+vendor
+composer.lock
+
+# Node specific
+lib-cov
+*.seed
+*.log
+*.dat
+*.out
+*.pid
+*.gz
+pids
+npm-debug.log
+node_modules/
+
+# Grunt (tmp)
+.tmp
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# Sublime specific #
+sftp-config*
+*.sublime-*
+
+# Log files
+logs/*
+!logs/.gitkeep
+
+# Env
+.env
+
+# WordPress
+public/wordpress
+public/content

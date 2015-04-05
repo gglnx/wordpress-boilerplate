@@ -1,0 +1,40 @@
+{
+  "name": "kesselblech",
+  "description": "Simple boilerplate for WordPress development with grunt and browsersync.io",
+  "keywords": ["wordpress", "boilerplate", "grunt", "browsersync"],
+  "homepage": "https://github.com/gglnx/kesselblech",
+  "bugs": "https://github.com/gglnx/kesselblech/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gglnx/kesselblech.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": {
+    "name": "Dennis Morhardt",
+    "email": "info@dennismorhardt.de",
+    "url": "https://www.dennismorhardt.de/"
+  },
+  "dependencies": {
+    "grunt": "~0.4.0",
+    "grunt-browser-sync": "~2.1.0",
+    "grunt-concurrent": "~1.0.0",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-coffee": "~0.13.0",
+    "grunt-contrib-copy": "~0.8.0",
+    "grunt-contrib-imagemin": "~0.9.0",
+    "grunt-contrib-less": "~1.0.0",
+    "grunt-contrib-requirejs": "~0.4.0",
+    "grunt-contrib-symlink": "~0.3.0",
+    "grunt-contrib-watch": "~0.6.0",
+    "grunt-exec": "^0.4.6",
+    "grunt-newer": "~0.7.0",
+    "grunt-php": "~1.4.0",
+    "grunt-svgmin": "~2.0.0",
+    "matchdep": "~0.3.0",
+    "serve-static": "~1.9.0"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}

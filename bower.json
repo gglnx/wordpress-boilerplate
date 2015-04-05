@@ -1,0 +1,21 @@
+{
+  "name": "kesselblech",
+  "description": "Simple boilerplate for WordPress development with grunt and browsersync.io",
+  "keywords": ["wordpress", "boilerplate", "grunt", "browsersync"],
+  "homepage": "https://github.com/gglnx/kesselblech",
+  "version": "0.1.0",
+  "license": "MIT",
+  "authors": [
+    "Dennis Morhardt <info@dennismorhardt.de> (https://www.dennismorhardt.de/)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gglnx/kesselblech.git"
+  },
+  "dependencies": {
+    "jquery": "~2.1.0",
+    "bootstrap": "~3.3.0",
+    "requirejs": "~2.1.0",
+    "lesshat": "~3.0.0"
+  }
+}
