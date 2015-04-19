@@ -7,53 +7,79 @@
  * @licence     MIT
  */
 
-// Include autoloader from composer
-require_once( dirname( __DIR__ ) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php' );
+// Absolute path to the WordPress directory
+define( 'ABSPATH', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
 
-// Default values
-$defaultConstantValues = array(
-	'DB_HOST' => 'localhost',
-	'DB_CHARSET' => 'utf8',
-	'DB_COLLATE' => '',
-	'DB_TABLEPREFIX' => 'wp_',
-	'AUTH_KEY' => 'put your unique phrase here',
-	'SECURE_AUTH_KEY' => 'put your unique phrase here',
-	'LOGGED_IN_KEY' => 'put your unique phrase here',
-	'NONCE_KEY' => 'put your unique phrase here',
-	'AUTH_SALT' => 'put your unique phrase here',
-	'SECURE_AUTH_SALT' => 'put your unique phrase here',
-	'LOGGED_IN_SALT' => 'put your unique phrase here',
-	'NONCE_SALT' => 'put your unique phrase here',
-	'WP_DEBUG' => false
-);
+// Absolute path to the project root directory
+define( 'ROOT_ABSPATH', dirname( __DIR__ ) . DIRECTORY_SEPARATOR );
+
+// Include autoloader from composer
+require_once( ROOT_ABSPATH . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php' );
+
+// Helper: Get environment settings, with fallback
+function getenv_fallback( $varname, $fallback = null ) {
+	return getenv( $varname ) ? getenv( $varname ) : $fallback;
+}
+
+// Use .env file, if it exists
+if ( file_exists( ROOT_ABSPATH . '.env' ) )
+	Dotenv::load( ROOT_ABSPATH );
 
 // Required environment variables
-Dotenv::load( dirname( __DIR__ ) );
-Dotenv::required( array( 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 'WP_HOME', 'WP_SITEURL' ) );
+Dotenv::required( array( 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 'THEMENAME' ) );
 
-// Constanize
-$constants = array_merge( $defaultConstantValues, $_ENV );
-foreach ( $constants as $constant => $value ) if ( !defined( $constant ) )
-	define( $constant, $value );
+// Current environment
+define( 'WP_ENV', getenv_fallback( 'WP_ENV', 'development' ) );
+
+// Database connection
+define( 'DB_NAME', getenv( 'DB_NAME' ) );
+define( 'DB_USER', getenv( 'DB_USER' ) );
+define( 'DB_PASSWORD', getenv( 'DB_PASSWORD' ) );
+define( 'DB_HOST', getenv_fallback( 'DB_HOST', 'localhost' ) );
+define( 'DB_CHARSET', getenv_fallback( 'DB_CHARSET', 'utf8' ) );
+define( 'DB_COLLATE', getenv_fallback( 'DB_COLLATE', '' ) );
 
 // WordPress Database Table prefix
 $table_prefix = DB_TABLEPREFIX;
 
 // Language
-if ( defined( 'WPLANG' ) )
+if ( getenv( 'WPLANG' ) ):
+	define( 'WPLANG', getenv( 'WPLANG' ) );
 	$wp_local_package = WP_LANG;
+endif;
 
-// HTTP_HOST fix
-if ( php_sapi_name() == 'cli-server' )
-	$_SERVER['HTTP_HOST'] = 'localhost:9000';
+// Override home & siteurl settings
+define( 'WP_HOME', getenv_fallback( 'WP_HOME', 'http://' . $_SERVER['HTTP_HOST'] ) );
+define( 'WP_SITEURL', getenv_fallback( 'WP_HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/wordpress' ) );
+
+// Default theme
+define( 'WP_DEFAULT_THEME', getenv( 'THEMENAME' ) );
+
+// Authentication Unique Keys and Salts
+define( 'AUTH_KEY', getenv_fallback( 'AUTH_KEY', 'put your unique phrase here' ) );
+define( 'SECURE_AUTH_KEY', getenv_fallback( 'SECURE_AUTH_KEY', 'put your unique phrase here' ) );
+define( 'LOGGED_IN_KEY', getenv_fallback( 'LOGGED_IN_KEY', 'put your unique phrase here' ) );
+define( 'NONCE_KEY', getenv_fallback( 'NONCE_KEY', 'put your unique phrase here' ) );
+define( 'AUTH_SALT', getenv_fallback( 'AUTH_SALT', 'put your unique phrase here' ) );
+define( 'SECURE_AUTH_SALT', getenv_fallback( 'SECURE_AUTH_SALT', 'put your unique phrase here' ) );
+define( 'LOGGED_IN_SALT', getenv_fallback( 'LOGGED_IN_SALT', 'put your unique phrase here' ) );
+define( 'NONCE_SALT', getenv_fallback( 'NONCE_SALT', 'put your unique phrase here' ) );
+
+// Disable automatic updates
+define( 'AUTOMATIC_UPDATER_DISABLED', true );
+define( 'DISALLOW_FILE_EDIT', true );
+
+// Disable cron calls on page loads
+define( 'DISABLE_WP_CRON', true );
 
 // Content directory
 define( 'CONTENT_DIR', 'content' );
-define( 'WP_CONTENT_DIR', dirname( __DIR__ ) . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . CONTENT_DIR );
+define( 'WP_CONTENT_DIR', ROOT_ABSPATH . 'public' . DIRECTORY_SEPARATOR . CONTENT_DIR );
 define( 'WP_CONTENT_URL', WP_HOME . '/' . CONTENT_DIR );
 
-// Absolute path to the WordPress directory.
-define( 'ABSPATH', dirname( __FILE__ ) . '/' );
+// Load configuration for environment
+if ( file_exists( ROOT_ABSPATH . 'public' . DIRECTORY_SEPARATOR . 'wp-config.' . WP_ENV . '.php' ) )
+	require_once ROOT_ABSPATH . 'public' . DIRECTORY_SEPARATOR . 'wp-config.' . WP_ENV . '.php';
 
 // Init WordPress
-require_once( ABSPATH . 'wp-settings.php' );
+require_once ABSPATH . 'wp-settings.php';
