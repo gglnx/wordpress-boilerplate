@@ -5,7 +5,7 @@
  */
 module.exports = function(grunt) {
 	// Load all grunt tasks
-	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+	require('matchdep').filter('grunt-*').forEach(grunt.loadNpmTasks);
 
 	// Theme name
 	var themename = 'kesselblech';
