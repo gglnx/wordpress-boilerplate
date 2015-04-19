@@ -7,33 +7,38 @@ module.exports = function(grunt) {
 	// Load all grunt tasks
 	require('matchdep').filter('grunt-*').forEach(grunt.loadNpmTasks);
 
-	// Theme name
-	var themename = 'kesselblech';
-
-	// Paths
-	var paths = {
-		app: 'theme',
-		tmp: '.tmp/content/themes/' + themename,
-		dist: 'public/content/themes/' + themename
-	};
-
 	// Init configuration for grunt
 	grunt.initConfig({
+		// Environment settings
+		env: {
+			src: '.env'
+		},
+
 		// Paths
-		paths: paths,
+		paths: {
+			app: function() {
+				return 'theme';
+			},
+			tmp: function() {
+				return '.tmp/content/themes/' + process.env.THEMENAME;
+			},
+			dist: function() {
+				return 'public/content/themes/' + process.env.THEMENAME;
+			}
+		},
 
 		// Watch files for changes
 		watch: {
 			coffee: {
-				files: ['<%= paths.app %>/javascripts/{,**/}*.coffee'],
+				files: ['<%= paths.app() %>/javascripts/{,**/}*.coffee'],
 				tasks: ['newer:coffee:dist']
 			},
 			styles: {
-				files: ['<%= paths.app %>/{,**/}*.css'],
+				files: ['<%= paths.app() %>/{,**/}*.css'],
 				tasks: ['copy:styles']
 			},
 			less: {
-				files: ['<%= paths.app %>/stylesheets/{,**/}*.less'],
+				files: ['<%= paths.app() %>/stylesheets/{,**/}*.less'],
 				tasks: ['less:server']
 			}
 		},
@@ -49,10 +54,10 @@ module.exports = function(grunt) {
 						target: '<%= php.server.options.hostname %>:<%= php.server.options.port %>'
 					},
 					files: [
-						'<%= paths.app %>/{*,**/}*.php',
-						'<%= paths.app %>/javascripts/{*,**/}*.js',
-						'<%= paths.tmp %>/javascripts/{*,**/}*.js',
-						'<%= paths.tmp %>/{*,**/}*.css'
+						'<%= paths.app() %>/{*,**/}*.php',
+						'<%= paths.app() %>/javascripts/{*,**/}*.js',
+						'<%= paths.tmp() %>/javascripts/{*,**/}*.js',
+						'<%= paths.tmp() %>/{*,**/}*.css'
 					],
 					snippetOptions: {
 						ignorePaths: "wordpress/**",
@@ -105,7 +110,7 @@ module.exports = function(grunt) {
 					dot: true,
 					src: [
 						'.tmp',
-						'<%= paths.dist %>'
+						'<%= paths.dist() %>'
 					]
 				}]
 			}
@@ -115,11 +120,11 @@ module.exports = function(grunt) {
 		less: {
 			server: {
 				options: {
-					paths: ['<%= paths.app %>/stylesheets'],
+					paths: ['<%= paths.app() %>/stylesheets'],
 					dumpLineNumbers: 'comments'
 				},
 				files: {
-					'<%= paths.tmp %>/stylesheets/main.css': '<%= paths.app %>/stylesheets/main.less'
+					'<%= paths.tmp() %>/stylesheets/main.css': '<%= paths.app() %>/stylesheets/main.less'
 				}
 			},
 			distDevelop: {
@@ -128,7 +133,7 @@ module.exports = function(grunt) {
 					dumpLineNumbers: 'comments'
 				},
 				files: {
-					'<%= paths.dist %>/stylesheets/main.css': '<%= paths.app %>/stylesheets/main.less'
+					'<%= paths.dist() %>/stylesheets/main.css': '<%= paths.app() %>/stylesheets/main.less'
 				}
 			},
 			distMaster: {
@@ -137,7 +142,7 @@ module.exports = function(grunt) {
 					cleancss: true
 				},
 				files: {
-					'<%= paths.dist %>/stylesheets/main.css': '<%= paths.app %>/stylesheets/main.less'
+					'<%= paths.dist() %>/stylesheets/main.css': '<%= paths.app() %>/stylesheets/main.less'
 				}
 			}
 		},
@@ -145,12 +150,12 @@ module.exports = function(grunt) {
 		// Symlinking
 		symlink: {
 			components: {
-				src: '<%= paths.app %>/components',
-				dest: '<%= paths.tmp %>/components'
+				src: '<%= paths.app() %>/components',
+				dest: '<%= paths.tmp() %>/components'
 			},
 			theme: {
-				src: '<%= paths.app %>',
-				dest: '<%= paths.dist %>'
+				src: '<%= paths.app() %>',
+				dest: '<%= paths.dist() %>'
 			}
 		},
 
@@ -159,9 +164,9 @@ module.exports = function(grunt) {
 			dist: {
 				files: [{
 					expand: true,
-					cwd: '<%= paths.app %>/javascripts',
+					cwd: '<%= paths.app() %>/javascripts',
 					src: '{,*/}*.coffee',
-					dest: '<%= paths.tmp %>/javascripts',
+					dest: '<%= paths.tmp() %>/javascripts',
 					ext: '.js'
 				}]
 			},
@@ -172,9 +177,9 @@ module.exports = function(grunt) {
 			compile: {
 				options: {
 					'name': 'main',
-					'baseUrl': '<%= paths.tmp %>/javascripts',
-					'mainConfigFile': '<%= paths.tmp %>/javascripts/main.js',
-					'out': '<%= paths.dist %>/javascripts/main.js',
+					'baseUrl': '<%= paths.tmp() %>/javascripts',
+					'mainConfigFile': '<%= paths.tmp() %>/javascripts/main.js',
+					'out': '<%= paths.dist() %>/javascripts/main.js',
 					'optimize': 'uglify2'
 				}
 			}
@@ -185,9 +190,9 @@ module.exports = function(grunt) {
 			dist: {
 				files: [{
 					expand: true,
-					cwd: '<%= paths.app %>/images',
+					cwd: '<%= paths.app() %>/images',
 					src: '{,*/}*.{png,jpg,jpeg}',
-					dest: '<%= paths.dist %>/images'
+					dest: '<%= paths.dist() %>/images'
 				}]
 			}
 		},
@@ -197,9 +202,9 @@ module.exports = function(grunt) {
 			dist: {
 				files: [{
 					expand: true,
-					cwd: '<%= paths.app %>/images',
+					cwd: '<%= paths.app() %>/images',
 					src: '{,*/}*.svg',
-					dest: '<%= paths.dist %>/images'
+					dest: '<%= paths.dist() %>/images'
 				}]
 			}
 		},
@@ -210,8 +215,8 @@ module.exports = function(grunt) {
 				files: [{
 					expand: true,
 					dot: true,
-					cwd: '<%= paths.app %>',
-					dest: '<%= paths.dist %>',
+					cwd: '<%= paths.app() %>',
+					dest: '<%= paths.dist() %>',
 					src: [
 						'{,**/}*.{php,po,mo}',
 						'*.{ico,png,txt,css}',
@@ -225,15 +230,15 @@ module.exports = function(grunt) {
 			styles: {
 				expand: true,
 				dot: true,
-				cwd: '<%= paths.app %>/stylesheets',
-				dest: '<%= paths.tmp %>/stylesheets/',
+				cwd: '<%= paths.app() %>/stylesheets',
+				dest: '<%= paths.tmp() %>/stylesheets/',
 				src: '{,*/}*.css'
 			},
 			javascripts: {
 				expand: true,
 				dot: true,
-				cwd: '<%= paths.app %>/javascripts',
-				dest: '<%= paths.tmp %>/javascripts/',
+				cwd: '<%= paths.app() %>/javascripts',
+				dest: '<%= paths.tmp() %>/javascripts/',
 				src: '{,*/}*.js'
 			}
 		},
@@ -258,6 +263,7 @@ module.exports = function(grunt) {
 	// Task: server (while development)
 	grunt.registerTask('server', function (target) {
 		grunt.task.run([
+			'env',
 			'clean',
 			'less:server',
 			'concurrent:server',
@@ -272,6 +278,7 @@ module.exports = function(grunt) {
 		var subtask = ( target === 'production' ) ? 'distMaster' : 'distDevelop';
 
 		grunt.task.run([
+			'env',
 			'clean',
 			'copy:javascripts',
 			'less:' + subtask,
