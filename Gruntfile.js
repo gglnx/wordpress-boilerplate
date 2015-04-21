@@ -51,7 +51,12 @@ module.exports = function(grunt) {
 						port: 9002
 					},
 					proxy: {
-						target: '<%= php.server.options.hostname %>:<%= php.server.options.port %>'
+						target: '<%= php.server.options.hostname %>:<%= php.server.options.port %>',
+						reqHeaders: function (config) {
+							return {
+								"host": "localhost:9000",
+							}
+						}
 					},
 					files: [
 						'<%= paths.app() %>/{*,**/}*.php',
