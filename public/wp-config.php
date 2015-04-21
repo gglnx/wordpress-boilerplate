@@ -8,7 +8,8 @@
  */
 
 // Absolute path to the WordPress directory
-define( 'ABSPATH', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
+if ( !defined( 'ABSPATH' ) )
+	define( 'ABSPATH', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
 
 // Absolute path to the project root directory
 define( 'ROOT_ABSPATH', dirname( __DIR__ ) . DIRECTORY_SEPARATOR );
@@ -45,6 +46,10 @@ $table_prefix = getenv_fallback( 'DB_TABLEPREFIX', 'wp_' );
 // Language
 if ( getenv( 'WPLANG' ) )
 	$wp_local_package = getenv( 'WPLANG' );
+
+// WP CLI fix
+if ( defined( 'WP_CLI' ) )
+	$_SERVER['HTTP_HOST'] = 'localhost:9000';
 
 // Override home & siteurl settings
 define( 'WP_HOME', getenv_fallback( 'WP_HOME', 'http://' . $_SERVER['HTTP_HOST'] ) );

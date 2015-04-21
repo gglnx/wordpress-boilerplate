@@ -31,6 +31,9 @@
     "johnpbloch/wordpress": "*",
     "koodimonni-language/de_de": "*",
     "composer/installers": "~1.0.0",
+    "wp-cli/wp-cli": "*",
+    "danielbachhuber/dictator": "*",
+    "psy/psysh": "*",
     "vlucas/phpdotenv": "*"
   },
   "require-dev": {
