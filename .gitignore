@@ -2,8 +2,7 @@
 theme/components
 
 # Composer
-vendor
-composer.lock
+/vendor
 
 # Node specific
 lib-cov
