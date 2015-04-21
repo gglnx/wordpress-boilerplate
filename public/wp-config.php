@@ -40,17 +40,15 @@ define( 'DB_CHARSET', getenv_fallback( 'DB_CHARSET', 'utf8' ) );
 define( 'DB_COLLATE', getenv_fallback( 'DB_COLLATE', '' ) );
 
 // WordPress Database Table prefix
-$table_prefix = DB_TABLEPREFIX;
+$table_prefix = getenv_fallback( 'DB_TABLEPREFIX', 'wp_' );
 
 // Language
-if ( getenv( 'WPLANG' ) ):
-	define( 'WPLANG', getenv( 'WPLANG' ) );
-	$wp_local_package = WP_LANG;
-endif;
+if ( getenv( 'WPLANG' ) )
+	$wp_local_package = getenv( 'WPLANG' );
 
 // Override home & siteurl settings
 define( 'WP_HOME', getenv_fallback( 'WP_HOME', 'http://' . $_SERVER['HTTP_HOST'] ) );
-define( 'WP_SITEURL', getenv_fallback( 'WP_HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/wordpress' ) );
+define( 'WP_SITEURL', getenv_fallback( 'WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST'] . '/wordpress' ) );
 
 // Default theme
 define( 'WP_DEFAULT_THEME', getenv( 'THEMENAME' ) );
