@@ -34,7 +34,7 @@
     "wp-cli/wp-cli": "*",
     "danielbachhuber/dictator": "*",
     "psy/psysh": "*",
-    "vlucas/phpdotenv": "*"
+    "vlucas/phpdotenv": "^2.0.0"
   },
   "require-dev": {
     "wpackagist-plugin/codestyling-localization": "*",

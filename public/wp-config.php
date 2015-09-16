@@ -22,12 +22,12 @@ function getenv_fallback( $varname, $fallback = null ) {
 	return getenv( $varname ) ? getenv( $varname ) : $fallback;
 }
 
-// Use .env file, if it exists
-if ( file_exists( ROOT_ABSPATH . '.env' ) )
-	Dotenv::load( ROOT_ABSPATH );
+// Load environment
+$dotenv = new Dotenv\Dotenv( ROOT_ABSPATH );
+$dotenv->load();
 
 // Required environment variables
-Dotenv::required( array( 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 'THEMENAME' ) );
+$dotenv->required( [ 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 'THEMENAME' ] );
 
 // Current environment
 define( 'WP_ENV', getenv_fallback( 'WP_ENV', 'development' ) );
